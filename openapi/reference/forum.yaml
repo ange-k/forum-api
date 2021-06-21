@@ -1,0 +1,208 @@
+openapi: 3.0.3
+info:
+  title: forum
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /games:
+    parameters: []
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+              examples:
+                example-1:
+                  value:
+                    - id: pso2ngs
+                      name: PSO2 NGS
+                    - id: pso2
+                      name: PSO2
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+              examples: {}
+        '500':
+          $ref: '#/components/responses/SystemError'
+      operationId: get-users-userId
+      description: 全てのゲームのIDとなまえを返す
+  '/games/{game}/posts':
+    parameters:
+      - schema:
+          type: string
+        name: game
+        in: path
+        required: true
+        description: game id
+    get:
+      summary: Your GET endpoint
+      tags: []
+      operationId: get-games-game-posts
+      description: そのゲームに投稿されたすべてのポストを取得する
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+              examples:
+                example:
+                  value:
+                    - id: 1
+                      gameId: pso2ngs
+                      playerName: ブロントさん
+                      purpose: PLAY
+                      vcUse: true
+                      device: PC or PS5
+                      comment: あれこれそれ
+                      createdAt: '2021-06-24T14:15:22Z'
+        '500':
+          $ref: '#/components/responses/SystemError'
+    post:
+      summary: ''
+      operationId: post-games-game-posts
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/SystemError'
+        '409':
+          $ref: '#/components/responses/SystemError'
+        '500':
+          $ref: '#/components/responses/SystemError'
+      description: そのゲームに書き込みを投稿する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+            examples:
+              example:
+                value:
+                  gameId: pso2ngs
+                  playerName: ブロントさん
+                  purpose: PLAY
+                  vcUse: true
+                  device: PC or PS5
+                  comment: あれこれそれ
+        description: 掲示板書き込みデータ
+components:
+  schemas:
+    Game:
+      title: Game
+      type: object
+      description: 取り扱うゲームのモデル
+      properties:
+        id:
+          type: string
+          description: ゲームの識別子.URLに使用される
+        name:
+          type: string
+          description: ゲームの名前。HTML上に表示するもの
+      required:
+        - id
+        - name
+      x-examples:
+        example:
+          value:
+            id: pso2ngs
+            name: PSO2 NGS
+    Post:
+      title: Post
+      type: object
+      description: ユーザ投稿モデル
+      properties:
+        id:
+          type: number
+          description: シーケンシャルID
+          minimum: 1
+          maximum: 999999999
+        gameId:
+          type: string
+          description: 投稿先のゲームのID
+        playerName:
+          type: string
+          description: プレイヤーの名前
+          minLength: 1
+          maxLength: 20
+        purpose:
+          type: string
+          enum:
+            - PLAY
+            - TEAM_LANCH
+            - TEAM_SCOUT
+            - TEAM_JOIN
+            - EVENT
+            - OTHER
+          example: PLAY
+        vcUse:
+          type: boolean
+        device:
+          type: string
+          minLength: 0
+          maxLength: 30
+        comment:
+          type: string
+          minLength: 1
+          maxLength: 400
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - gameId
+        - playerName
+        - purpose
+        - vcUse
+        - device
+        - comment
+      x-examples:
+        example:
+          value:
+            id: 1
+            gameId: pso2ngs
+            playerName: ブロントさん
+            purpose: PLAY
+            vcUse: true
+            device: PC、PS5
+            comment: あれこれそれ
+            createdAt: '2019-08-24T14:15:22Z'
+    Error:
+      title: Error
+      type: object
+      description: 汎用エラーモデル
+      properties:
+        code:
+          type: string
+          description: エラーのハンドリングを示すパラメータ
+          enum:
+            - INTERNAL
+            - CONFLICT
+            - MAINTENANCE
+          example: INTERNAL
+        message:
+          type: string
+          description: エラーに関する説明
+      required:
+        - code
+        - message
+  responses:
+    SystemError:
+      description: エラーレスポンス
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
