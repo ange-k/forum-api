@@ -35,7 +35,7 @@ paths:
               examples: {}
         '500':
           $ref: '#/components/responses/SystemError'
-      operationId: get-users-userId
+      operationId: get-games
       description: 全てのゲームのIDとなまえを返す
   '/games/{game}/posts':
     parameters:
@@ -48,7 +48,7 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      operationId: get-games-game-posts
+      operationId: get-games-posts
       description: そのゲームに投稿されたすべてのポストを取得する
       responses:
         '200':
@@ -74,7 +74,7 @@ paths:
           $ref: '#/components/responses/SystemError'
     post:
       summary: ''
-      operationId: post-games-game-posts
+      operationId: post-games-post
       responses:
         '200':
           description: OK

@@ -36,6 +36,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
+	implementation("io.swagger:swagger-annotations:1.6.2")
+	implementation("javax.validation:validation-api:2.0.1.Final")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 }
@@ -43,7 +46,7 @@ dependencies {
 val generatedSourcesDir = "$buildDir/generated/openapi"
 
 openApiGenerate {
-	generatorName.set("spring")
+	generatorName.set("kotlin-spring")
 	inputSpec.set("$rootDir/openapi/reference/forum.yaml")
 	outputDir.set(generatedSourcesDir)
 
@@ -57,9 +60,11 @@ openApiGenerate {
 		"interfaceOnly" to "true",
 		"serializableModel" to "true",
 		"reactive" to "true",
-		"configPackage" to "me.chalkboard.forum.appconfig"
+		"configPackage" to "me.chalkboard.forum.appconfig",
+		"enumPropertyNaming" to "UPPERCASE"
 	))
 }
+
 sourceSets {
 	getByName("main") {
 		java {
@@ -67,12 +72,13 @@ sourceSets {
 		}
 	}
 }
-tasks {
-	val openApiGenerate by getting
 
-	val compileJava by getting {
-		dependsOn(openApiGenerate)
-	}
+tasks.compileJava {
+	dependsOn(tasks.openApiGenerate)
+}
+
+tasks.compileKotlin {
+	dependsOn(tasks.openApiGenerate)
 }
 
 tasks.withType<KotlinCompile> {

@@ -1,0 +1,10 @@
+spring:
+  data:
+    cassandra: # https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/cassandra/CassandraProperties.java
+      keyspaceName: forum
+      sessionName: datacenter1
+      port: 9042
+      contactPoints:
+        - 127.0.0.1
+      localDatacenter: datacenter1
+      schema-action: recreate_drop_unused # https://docs.spring.io/spring-data/cassandra/docs/current/api/org/springframework/data/cassandra/config/SchemaAction.html
