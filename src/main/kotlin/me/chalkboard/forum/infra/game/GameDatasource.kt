@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux
 class GameDatasource(
     private val repository: GameRepository
 ) {
-    fun finds(): Flux<Game> {
-        return repository.findAll().map { m -> Game(m.idName, m.viewName) }
+    suspend fun finds(): Flux<Game> {
+        return  repository.findAll().map { m -> Game(m.idName, m.viewName) }
     }
 }

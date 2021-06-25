@@ -1,13 +1,12 @@
 package me.chalkboard.forum.presentation.controller
 
 import kotlinx.coroutines.flow.Flow
-import me.chalkboard.forum.api.GamesApi
+import kotlinx.coroutines.reactive.asFlow
 import me.chalkboard.forum.model.Game
 import me.chalkboard.forum.usecase.game.GameUsecase
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Flux
 
 /**
  * GameフォーラムAPIエンドポイント
@@ -24,7 +23,7 @@ class ForumController(
         value = ["/games"],
         produces = ["application/json", "application/xml"]
     )
-    fun getGame(): Flux<Game> = gameUsecase.findGames()
+    suspend fun getGame(): Flow<Game> = gameUsecase.findGames().asFlow()
 
     /**
     /**
