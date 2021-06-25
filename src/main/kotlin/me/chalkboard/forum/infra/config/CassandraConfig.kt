@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration
 import org.springframework.data.cassandra.config.CqlSessionFactoryBean
+import org.springframework.data.cassandra.core.mapping.CassandraMappingContext
+import org.springframework.data.cassandra.core.mapping.NamingStrategy
 import org.springframework.data.cassandra.repository.config.EnableReactiveCassandraRepositories
 
 @Configuration
@@ -14,6 +16,12 @@ class CassandraConfig(
 ): AbstractReactiveCassandraConfiguration() {
     override fun getKeyspaceName(): String {
         return cassandraProperties.keyspaceName
+    }
+
+    override fun cassandraMapping(): CassandraMappingContext {
+        val context:CassandraMappingContext = super.cassandraMapping()
+        context.setNamingStrategy(NamingStrategy.SNAKE_CASE)
+        return context
     }
 
     @Bean

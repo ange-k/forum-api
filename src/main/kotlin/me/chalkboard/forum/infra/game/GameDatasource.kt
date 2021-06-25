@@ -1,9 +1,9 @@
 package me.chalkboard.forum.infra.game
 
-import kotlinx.coroutines.flow.flow
+import me.chalkboard.forum.model.Game
 import me.chalkboard.forum.model.game.GameRepository
-import me.chalkboard.forum.usecase.game.GamesResponseDto
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
 
 /**
  * Reactive-Cassandraの実装を委譲して利用するDatasource.
@@ -11,13 +11,9 @@ import org.springframework.stereotype.Repository
  */
 @Repository
 class GameDatasource(
-    val repository: GameRepository
+    private val repository: GameRepository
 ) {
-    fun finds(): GamesResponseDto {
-        return GamesResponseDto.of(
-            flow {
-                repository.findAll()
-            }
-        )
+    fun finds(): Flux<Game> {
+        return repository.findAll().map { m -> Game(m.idName, m.viewName) }
     }
 }

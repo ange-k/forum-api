@@ -106,21 +106,21 @@ components:
       title: Game
       type: object
       description: 取り扱うゲームのモデル
-      properties:
-        id:
-          type: string
-          description: ゲームの識別子.URLに使用される
-        name:
-          type: string
-          description: ゲームの名前。HTML上に表示するもの
-      required:
-        - id
-        - name
       x-examples:
         example:
           value:
             id: pso2ngs
             name: PSO2 NGS
+      properties:
+        id_name:
+          type: string
+          description: ゲームの識別子.URLに使用される
+        view_name:
+          type: string
+          description: ゲームの名前。HTML上に表示するもの
+      required:
+        - id_name
+        - view_name
     Post:
       title: Post
       type: object

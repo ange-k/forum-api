@@ -1,7 +1,8 @@
 package me.chalkboard.forum.model.game
 
-import me.chalkboard.forum.usecase.game.GamesResponseDto
+import me.chalkboard.forum.usecase.game.GameTableModel
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
+import org.springframework.stereotype.Repository
 
-interface GameRepository: ReactiveCassandraRepository<GamesResponseDto, Void>{
-}
+@Repository
+interface GameRepository: ReactiveCassandraRepository<GameTableModel, String>

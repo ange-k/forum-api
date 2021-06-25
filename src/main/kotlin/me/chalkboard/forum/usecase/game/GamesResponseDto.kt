@@ -8,19 +8,14 @@ import me.chalkboard.forum.model.Game
  * User <- Application <- DatastoreのDTO
  */
 class GamesResponseDto(
-    private val games: Flow<GameDto>
+    private val games: Flow<Game>
 ) {
     fun toModels(): Flow<Game> {
-        return games.map { game -> Game(game.id, game.name) }
+        return games
     }
 
-    data class GameDto(
-        val id: String, // uriパラメータになる
-        val name: String
-    )
-
     companion object {
-        fun of(games:Flow<GameDto>):GamesResponseDto {
+        fun of(games:Flow<Game>):GamesResponseDto {
             return GamesResponseDto(games)
         }
     }

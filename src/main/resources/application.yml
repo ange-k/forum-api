@@ -8,3 +8,13 @@ spring:
         - 127.0.0.1
       localDatacenter: datacenter1
       schema-action: recreate_drop_unused # https://docs.spring.io/spring-data/cassandra/docs/current/api/org/springframework/data/cassandra/config/SchemaAction.html
+debug: true
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          cassandra:
+            core:
+              cql:
+                CqlTemplate: DEBUG
