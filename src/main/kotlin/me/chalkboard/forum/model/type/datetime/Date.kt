@@ -17,6 +17,8 @@ class Date private constructor(
     override fun toString():String =
         date.format(DateTimeFormatter.ISO_DATE)
 
+    fun value(): LocalDate = this.date
+
     companion object {
         /**
          * 現在のオブジェクトを取得

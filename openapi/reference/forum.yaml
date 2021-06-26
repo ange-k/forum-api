@@ -140,6 +140,9 @@ components:
         uuid:
           type: string
           description: シーケンシャルID
+        writeDay:
+          type: string
+          format: date
         gameId:
           type: string
           description: 投稿先のゲームのID

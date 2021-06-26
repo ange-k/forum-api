@@ -49,7 +49,7 @@ class PostData
       device = ['PC', 'PS5, PC', 'PS4'].sample
       comment = SecureRandom.hex(50)
       # index*59minずつ進んでいく
-      created_at = DateTime.new(2021, 6, 1, 10, 0, 0) + (Rational(1, 24 * 60) * (index * 59))
+      created_at = DateTime.new(2021, 6, 1, 10, 0, 0, "+09:00") + (Rational(1, 24 * 60) * (index * 59))
       user_data = {
         'ip_addr': ['10.10.10.10', '1.2.3.4', '127.0.0.1', '0.0.0.0','12.34.56.99'].sample,
         'user_agent': ['ie','edge','safari','chrome'].sample
