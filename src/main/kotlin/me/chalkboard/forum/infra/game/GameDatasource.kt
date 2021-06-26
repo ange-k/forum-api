@@ -1,7 +1,6 @@
 package me.chalkboard.forum.infra.game
 
 import me.chalkboard.forum.model.Game
-import me.chalkboard.forum.model.game.GameRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 

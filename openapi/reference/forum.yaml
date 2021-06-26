@@ -125,15 +125,26 @@ components:
       title: Post
       type: object
       description: ユーザ投稿モデル
+      x-examples:
+        example:
+          value:
+            id: 1
+            gameId: pso2ngs
+            playerName: ブロントさん
+            purpose: PLAY
+            vcUse: true
+            device: PC、PS5
+            comment: あれこれそれ
+            createdAt: '2019-08-24T14:15:22Z'
       properties:
-        id:
-          type: number
+        uuid:
+          type: string
           description: シーケンシャルID
-          minimum: 1
-          maximum: 999999999
         gameId:
           type: string
           description: 投稿先のゲームのID
+        server:
+          type: string
         playerName:
           type: string
           description: プレイヤーの名前
@@ -162,6 +173,10 @@ components:
         createdAt:
           type: string
           format: date-time
+        userData:
+          $ref: '#/components/schemas/UserData'
+        deleteKey:
+          type: string
       required:
         - gameId
         - playerName
@@ -169,17 +184,6 @@ components:
         - vcUse
         - device
         - comment
-      x-examples:
-        example:
-          value:
-            id: 1
-            gameId: pso2ngs
-            playerName: ブロントさん
-            purpose: PLAY
-            vcUse: true
-            device: PC、PS5
-            comment: あれこれそれ
-            createdAt: '2019-08-24T14:15:22Z'
     Error:
       title: Error
       type: object
@@ -199,6 +203,14 @@ components:
       required:
         - code
         - message
+    UserData:
+      title: UserData
+      type: object
+      properties:
+        ipAddr:
+          type: string
+        userAgent:
+          type: string
   responses:
     SystemError:
       description: エラーレスポンス

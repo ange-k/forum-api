@@ -5,7 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-sample_data_insert.cql
+cassandra/cql/sample/sample_data_insert.cql
 
 ### STS ###
 .apt_generated

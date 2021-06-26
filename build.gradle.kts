@@ -54,7 +54,7 @@ openApiGenerate {
 	modelPackage.set("me.chalkboard.forum.model")
 
 	configOptions.set(mapOf(
-		"dateLibrary" to "java8",
+		"dateLibrary" to "java8-localdatetime",
 		"library" to "spring-boot",
 		"useBeanValidation" to "true",
 		"interfaceOnly" to "true",
@@ -62,6 +62,10 @@ openApiGenerate {
 		"reactive" to "true",
 		"configPackage" to "me.chalkboard.forum.appconfig",
 		"enumPropertyNaming" to "UPPERCASE"
+	))
+
+	typeMappings.set(mapOf(
+		"DateTime" to "java.time.LocalDateTime"
 	))
 }
 

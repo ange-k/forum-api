@@ -7,7 +7,7 @@ CREATE TABLE games (
 );
 
 CREATE TABLE posts (
-    id uuid,
+    uuid uuid,
     write_day date,
     game_id varchar,
     server varchar,
@@ -18,5 +18,6 @@ CREATE TABLE posts (
     comment varchar,
     created_at timestamp,
     user_data map<varchar,varchar>,
-    PRIMARY KEY ((game_id, write_day), created_at, id)
+    delete_key varchar,
+    PRIMARY KEY ((game_id, write_day), created_at, uuid)
 );

@@ -1,6 +1,5 @@
-package me.chalkboard.forum.model.game
+package me.chalkboard.forum.infra.game
 
-import me.chalkboard.forum.usecase.game.GameTableModel
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository
 import org.springframework.stereotype.Repository
 
