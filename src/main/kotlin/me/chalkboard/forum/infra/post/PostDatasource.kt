@@ -4,10 +4,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import me.chalkboard.forum.model.Post
 import me.chalkboard.forum.model.type.datetime.Date
-import me.chalkboard.forum.usecase.post.PostRequestDto
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import java.time.Clock
+import java.util.*
 import java.util.stream.Collectors
 import java.util.stream.LongStream
 
@@ -27,13 +28,21 @@ class PostDatasource(
         return Flux.fromIterable(requests)
             .flatMap { request ->
                 repository.findByKeyGameIdAndKeyWriteDay(gameId, request.value())
-            }.map { model ->
-                Post(model.key.gameId, model.playerName, Post.Purpose.valueOf(model.purpose), model.vcUse, model.device, model.comment,
-                model.key.uuid, model.key.writeDay, model.server, model.key.createdAt, model.userDataConvert(), model.deleteKey)
-            }.asFlow()
+            }.map(this::convertModel).asFlow()
     }
 
-    fun save(body: PostRequestDto): Void {
-        TODO("Not yet implemented")
+    fun save(post: Post): Mono<Void> {
+        val userDataDto: UserDataDto = UserDataDto.of(post.userData)
+        val model = PostTableModel(
+            PostTableKey(post.gameId, Date.now(clock).value(), null, null),
+            post.server.orEmpty(), post.playerName, post.purpose.value, post.vcUse, post.device, post.comment,
+            userDataDto.convertMap()
+            , post.deleteKey.orEmpty()
+        )
+        return repository.save(model)
     }
+
+    fun convertModel(model: PostTableModel): Post =
+        Post(model.key.gameId, model.playerName, Post.Purpose.valueOf(model.purpose), model.vcUse, model.device, model.comment,
+            model.key.uuid, model.key.writeDay, model.server, model.key.createdAt, UserDataDto.of(model.userData).convertModel(), model.deleteKey)
 }

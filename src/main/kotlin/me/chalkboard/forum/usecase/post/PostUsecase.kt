@@ -3,7 +3,6 @@ package me.chalkboard.forum.usecase.post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.reactive.asFlow
 import me.chalkboard.forum.infra.game.GameDatasource
 import me.chalkboard.forum.infra.post.PostDatasource
@@ -11,6 +10,8 @@ import me.chalkboard.forum.model.Post
 import me.chalkboard.forum.usecase.exception.NotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Mono
+import java.lang.Exception
 
 @Service
 class PostUsecase(
@@ -33,4 +34,11 @@ class PostUsecase(
 
         return postRepository.finds(gameId)
     }
+
+    fun save(post: Post): Mono<Void> =
+        postRepository.save(post)
+            .onErrorResume(Exception::class.java) { ex ->
+                log.error("想定外の例外:" + ex.message)
+                Mono.error(ex)
+            }
 }

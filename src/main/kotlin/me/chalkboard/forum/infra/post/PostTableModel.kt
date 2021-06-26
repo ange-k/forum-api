@@ -1,6 +1,5 @@
 package me.chalkboard.forum.infra.post
 
-import me.chalkboard.forum.model.UserData
 import org.springframework.data.cassandra.core.mapping.PrimaryKey
 import org.springframework.data.cassandra.core.mapping.Table
 
@@ -17,10 +16,4 @@ data class PostTableModel(
     val comment: String,
     val userData: Map<String, String>,
     val deleteKey: String,
-) {
-    fun userDataConvert(): UserData {
-        val ipAddr: String = userData.getOrDefault("ip_addr", "0")
-        val userAgent: String = userData.getOrDefault("user_agent", "-")
-        return UserData(ipAddr, userAgent)
-    }
-}
+)

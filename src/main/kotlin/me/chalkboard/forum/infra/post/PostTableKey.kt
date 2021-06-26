@@ -14,7 +14,7 @@ data class PostTableKey(
     @PrimaryKeyColumn(name="write_day", ordinal = 1, type = PrimaryKeyType.PARTITIONED)
     val writeDay: LocalDate,
     @PrimaryKeyColumn(name="created_at", ordinal = 2, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime?,
     @PrimaryKeyColumn(name="uuid", ordinal = 3, type = PrimaryKeyType.CLUSTERED)
-    val uuid: String,
+    val uuid: String?,
 )
