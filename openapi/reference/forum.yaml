@@ -164,7 +164,11 @@ components:
             - OTHER
           example: PLAY
         vcUse:
-          type: boolean
+          type: string
+          enum:
+            - USE
+            - UNUSE
+            - EITHER
         device:
           type: string
           minLength: 0
@@ -180,6 +184,25 @@ components:
           $ref: '#/components/schemas/UserData'
         deleteKey:
           type: string
+        tags:
+          type: array
+          items:
+            type: string
+            enum:
+              - PS_EX
+              - PS_JOY
+              - PS_EASY
+              - TIME_SOCIETY
+              - TIME_STUDENT
+              - TIME_SHIFT
+              - TIME_NIGHTLY
+              - TIME_RANDOM
+              - YEARS_10
+              - YEARS_20
+              - YEARS_OV_30
+              - PLAY_EASY
+              - PLAY_VETERAN
+              - PLAY_HERO
       required:
         - gameId
         - playerName

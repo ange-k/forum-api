@@ -11,9 +11,10 @@ data class PostTableModel(
     val server: String,
     val playerName: String,
     val purpose: String,
-    val vcUse: Boolean,
+    val vcUse: String,
     val device: String,
     val comment: String,
     val userData: Map<String, String>,
-    val deleteKey: String,
+    val tags: List<String>?,
+    val deleteKey: String?,
 )

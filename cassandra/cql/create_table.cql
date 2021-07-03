@@ -13,11 +13,12 @@ CREATE TABLE posts (
     server varchar,
     player_name varchar,
     purpose varchar,
-    vc_use boolean,
+    vc_use varchar,
     device varchar,
     comment varchar,
     created_at timestamp,
     user_data map<varchar,varchar>,
+    tags list<varchar>,
     delete_key varchar,
     PRIMARY KEY ((game_id, write_day), created_at, uuid)
 );
