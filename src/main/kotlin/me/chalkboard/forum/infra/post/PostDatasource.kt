@@ -47,7 +47,7 @@ class PostDatasource(
     }
 
     fun convertModel(model: PostTableModel): Post =
-        Post(model.key.gameId, model.playerName, model.title, Post.Purpose.valueOf(model.purpose), Post.VcUse.valueOf(model.vcUse), model.device, model.comment,
+        Post(model.key.gameId, model.title, model.playerName, Post.Purpose.valueOf(model.purpose), Post.VcUse.valueOf(model.vcUse), model.device, model.comment,
             model.key.uuid, model.key.writeDay, model.server, model.key.createdAt, UserDataDto.of(model.userData).convertModel(), model.deleteKey,
             model.tags?.let { tags -> tags.map { s ->  Post.Tags.valueOf(s)}
             }?: run {
