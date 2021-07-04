@@ -11,7 +11,7 @@ class InsertStatement
   end
 
   def gen()
-    keys = 'uuid, write_day, game_id, server, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key'
+    keys = 'uuid, write_day, game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key'
     "INSERT INTO forum.posts(#{keys}) VALUES (uuid(), #{@post_data.to_text});\n"
   end
 end
@@ -19,9 +19,10 @@ end
 # Insert文の中身を作るためのクラス
 # key順が暗黙的に一致しないといけない
 class PostData
-  def initialize(game_id, server, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key)
+  def initialize(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key)
     @game_id = game_id
     @server = server
+    @title = title
     @player_name = player_name
     @purpose = purpose
     @vc_use = vc_use
@@ -36,7 +37,7 @@ class PostData
   end
 
   def to_text()
-    "'#{@write_day}', '#{@game_id}', '#{@server}', '#{@player_name}', '#{@purpose}', '#{@vc_use}', '#{@device}', '#{@comment}', '#{@created_at}'," +
+    "'#{@write_day}', '#{@game_id}', '#{@server}', '#{@title}','#{@player_name}', '#{@purpose}', '#{@vc_use}', '#{@device}', '#{@comment}', '#{@created_at}'," +
       "{ 'ip_addr': '#{@user_data[:ip_addr]}', 'user_agent': '#{@user_data[:user_agent]}' }, [#{@tags.map { |s| @tags.last == s ? "'#{s}'" : "'#{s}', " }.join }], '#{@delete_key}'"
   end
 
@@ -44,6 +45,7 @@ class PostData
     def generate(index)
       game_id = ['pso2', 'pso2ngs', 'genshin', 'ff14'].sample
       server = ['hoge', 'fuga', 'Asia', 'Kansai'].sample
+      title = SecureRandom.hex(25)
       player_name = SecureRandom.hex(8)
       purpose = ['PLAY','TEAM_LANCH','TEAM_SCOUT', 'TEAM_JOIN', 'EVENT'].sample
       vc_use = ['USE', 'UNUSE', 'EITHER'].sample
@@ -62,7 +64,7 @@ class PostData
          'PLAY_EASY', 'PLAY_VETERAN', 'PLAY_HERO'].sample
       end
       tags = tmpTags.uniq
-      PostData.new(game_id, server, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, 'delete')
+      PostData.new(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, 'delete')
     end
   end
 end

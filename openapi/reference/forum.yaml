@@ -146,6 +146,8 @@ components:
         gameId:
           type: string
           description: 投稿先のゲームのID
+        title:
+          type: string
         server:
           type: string
         playerName:
@@ -157,10 +159,15 @@ components:
           type: string
           enum:
             - PLAY
+            - FRIEND
+            - GURUGURU
+            - END_CONTENT
+            - HELPME
             - TEAM_LANCH
             - TEAM_SCOUT
             - TEAM_JOIN
             - EVENT
+            - TRADE
             - OTHER
           example: PLAY
         vcUse:
@@ -205,6 +212,7 @@ components:
               - PLAY_HERO
       required:
         - gameId
+        - title
         - playerName
         - purpose
         - vcUse

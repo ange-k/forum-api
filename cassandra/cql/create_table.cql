@@ -11,6 +11,7 @@ CREATE TABLE posts (
     write_day date,
     game_id varchar,
     server varchar,
+    title varchar,
     player_name varchar,
     purpose varchar,
     vc_use varchar,

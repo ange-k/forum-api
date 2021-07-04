@@ -35,7 +35,7 @@ class PostDatasource(
         val userDataDto: UserDataDto = UserDataDto.of(post.userData)
         val model = PostTableModel(
             PostTableKey(post.gameId, Date.now(clock).value(), null, null),
-            post.server.orEmpty(), post.playerName, post.purpose.value, post.vcUse.value, post.device, post.comment,
+            post.server.orEmpty(), post.title, post.playerName, post.purpose.value, post.vcUse.value, post.device, post.comment,
             userDataDto.convertMap(),
             post.tags?.let { tags -> tags.map{ enm -> enm.value}
             }?: run {
@@ -47,7 +47,7 @@ class PostDatasource(
     }
 
     fun convertModel(model: PostTableModel): Post =
-        Post(model.key.gameId, model.playerName, Post.Purpose.valueOf(model.purpose), Post.VcUse.valueOf(model.vcUse), model.device, model.comment,
+        Post(model.key.gameId, model.playerName, model.title, Post.Purpose.valueOf(model.purpose), Post.VcUse.valueOf(model.vcUse), model.device, model.comment,
             model.key.uuid, model.key.writeDay, model.server, model.key.createdAt, UserDataDto.of(model.userData).convertModel(), model.deleteKey,
             model.tags?.let { tags -> tags.map { s ->  Post.Tags.valueOf(s)}
             }?: run {

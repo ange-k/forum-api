@@ -9,6 +9,7 @@ data class PostTableModel(
     val key: PostTableKey,
 
     val server: String,
+    val title: String,
     val playerName: String,
     val purpose: String,
     val vcUse: String,

@@ -15,8 +15,8 @@ interface PostRepository: ReactiveCassandraRepository<PostTableModel,PostTableKe
      */
     fun findByKeyGameIdAndKeyWriteDay(gameId:String, writeDay:LocalDate): Flux<PostTableModel>
 
-    @Query("INSERT INTO forum.posts(uuid, write_day, game_id, server, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key) VALUES (" +
-            "uuid(), :#{#model.key.writeDay}, :#{#model.key.gameId}, :#{#model.server}, :#{#model.playerName}, :#{#model.purpose}, :#{#model.vcUse}," +
+    @Query("INSERT INTO forum.posts(uuid, write_day, game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key) VALUES (" +
+            "uuid(), :#{#model.key.writeDay}, :#{#model.key.gameId}, :#{#model.server}, :#{#model.title}, :#{#model.playerName}, :#{#model.purpose}, :#{#model.vcUse}," +
             ":#{#model.device}, :#{#model.comment}, toTimeStamp(now()), :#{#model.userData}, :#{#model.tags}, :#{#model.deleteKey})")
     fun save(@Param("model")model: PostTableModel): Mono<Void>
 }
