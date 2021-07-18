@@ -269,6 +269,8 @@ components:
             - JOB_ACK
             - JOB_DEF
             - JOB_HEAL
+      required:
+        - id
   responses:
     SystemError:
       description: エラーレスポンス

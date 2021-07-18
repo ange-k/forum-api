@@ -3,6 +3,7 @@ package me.chalkboard.forum.infra.post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
 import me.chalkboard.forum.model.Post
+import me.chalkboard.forum.model.Tags
 import me.chalkboard.forum.model.type.datetime.Date
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
@@ -37,7 +38,15 @@ class PostDatasource(
             PostTableKey(post.gameId, Date.now(clock).value(), null, null),
             post.server.orEmpty(), post.title, post.playerName, post.purpose.value, post.vcUse.value, post.device, post.comment,
             userDataDto.convertMap(),
-            post.tags?.let { tags -> tags.map{ enm -> enm.value}
+            post.tags?.let { tags -> tags.map{ enm -> enm.id.value }
+            }?: run {
+                emptyList()
+            },
+            post.selfTags?.let { tags -> tags.map { enm -> enm.id.value }
+            }?: run {
+                emptyList()
+            },
+            post.playTime?.let { times -> times.map { time -> time.value }
             }?: run {
                 emptyList()
             },
@@ -49,8 +58,17 @@ class PostDatasource(
     fun convertModel(model: PostTableModel): Post =
         Post(model.key.gameId, model.title, model.playerName, Post.Purpose.valueOf(model.purpose), Post.VcUse.valueOf(model.vcUse), model.device, model.comment,
             model.key.uuid, model.key.writeDay, model.server, model.key.createdAt, UserDataDto.of(model.userData).convertModel(), model.deleteKey,
-            model.tags?.let { tags -> tags.map { s ->  Post.Tags.valueOf(s)}
+            model.tags?.let { tags -> tags.map { s ->  Tags(Tags.Id.valueOf(s))}
             }?: run {
                 emptyList()
-            })
+            },
+            model.selfTags?.let { tags -> tags.map { s -> Tags(Tags.Id.valueOf(s))}
+            }?: run {
+                emptyList()
+            },
+            model.playTime?.let { times -> times.map { time -> Post.PlayTime.valueOf(time)}
+            }?: run {
+                emptyList()
+            }
+        )
 }

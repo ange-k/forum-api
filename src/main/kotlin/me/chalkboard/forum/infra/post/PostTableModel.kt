@@ -17,5 +17,7 @@ data class PostTableModel(
     val comment: String,
     val userData: Map<String, String>,
     val tags: List<String>?,
+    val selfTags: List<String>?,
+    val playTime: List<String>?,
     val deleteKey: String?,
 )
