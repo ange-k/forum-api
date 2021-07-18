@@ -20,13 +20,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Game'
-              examples:
-                example-1:
-                  value:
-                    - id: pso2ngs
-                      name: PSO2 NGS
-                    - id: pso2
-                      name: PSO2
             application/xml:
               schema:
                 type: array
@@ -193,23 +186,33 @@ components:
           type: string
         tags:
           type: array
+          description: 相手に求めることを記載するタグ
+          items:
+            $ref: '#/components/schemas/Tags'
+        selfTags:
+          type: array
+          description: 自分に当てはまることを記載するタグ
+          items:
+            $ref: '#/components/schemas/Tags'
+        playTime:
+          type: array
           items:
             type: string
             enum:
-              - PS_EX
-              - PS_JOY
-              - PS_EASY
-              - TIME_SOCIETY
-              - TIME_STUDENT
-              - TIME_SHIFT
-              - TIME_NIGHTLY
-              - TIME_RANDOM
-              - YEARS_10
-              - YEARS_20
-              - YEARS_OV_30
-              - PLAY_EASY
-              - PLAY_VETERAN
-              - PLAY_HERO
+              - WEEKDAYS_M
+              - WEEKDAYS_L
+              - WEEKDAYS_N
+              - WEEKDAYS_MN
+              - WEEKDAYS_EM
+              - HOLIDAYS_EM
+              - HOLIDAYS_M
+              - HOLIDAYS_L
+              - HOLIDAYS_N
+              - HOLIDAYS_MN
+              - BEST_EFFORT
+              - RANDOM
+              - WEEKDAYS
+              - HOLIDAYS
       required:
         - gameId
         - title
@@ -245,6 +248,27 @@ components:
           type: string
         userAgent:
           type: string
+    Tags:
+      title: Tags
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+            - PS_EX
+            - PS_JOY
+            - PS_EASY
+            - TIME_SOCIETY
+            - TIME_STUDENT
+            - YEARS_10
+            - YEARS_20
+            - YEARS_OV_30
+            - PLAY_EASY
+            - PLAY_VETERAN
+            - PLAY_HERO
+            - JOB_ACK
+            - JOB_DEF
+            - JOB_HEAL
   responses:
     SystemError:
       description: エラーレスポンス

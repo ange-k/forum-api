@@ -20,6 +20,8 @@ CREATE TABLE posts (
     created_at timestamp,
     user_data map<varchar,varchar>,
     tags list<varchar>,
+    self_tags list<varchar>,
+    play_time list<varchar>,
     delete_key varchar,
     PRIMARY KEY ((game_id, write_day), created_at, uuid)
 );

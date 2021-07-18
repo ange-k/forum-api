@@ -11,7 +11,7 @@ class InsertStatement
   end
 
   def gen()
-    keys = 'uuid, write_day, game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key'
+    keys = 'uuid, write_day, game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, delete_key'
     "INSERT INTO forum.posts(#{keys}) VALUES (uuid(), #{@post_data.to_text});\n"
   end
 end
@@ -19,7 +19,7 @@ end
 # Insert文の中身を作るためのクラス
 # key順が暗黙的に一致しないといけない
 class PostData
-  def initialize(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, delete_key)
+  def initialize(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, delete_key)
     @game_id = game_id
     @server = server
     @title = title
@@ -31,6 +31,8 @@ class PostData
     @created_at = created_at
     @user_data = user_data
     @tags = tags
+    @self_tags = self_tags
+    @play_time = play_time
     @delete_key = delete_key
 
     @write_day = created_at.strftime('%Y-%m-%d')
@@ -38,7 +40,8 @@ class PostData
 
   def to_text()
     "'#{@write_day}', '#{@game_id}', '#{@server}', '#{@title}','#{@player_name}', '#{@purpose}', '#{@vc_use}', '#{@device}', '#{@comment}', '#{@created_at}'," +
-      "{ 'ip_addr': '#{@user_data[:ip_addr]}', 'user_agent': '#{@user_data[:user_agent]}' }, [#{@tags.map { |s| @tags.last == s ? "'#{s}'" : "'#{s}', " }.join }], '#{@delete_key}'"
+      "{ 'ip_addr': '#{@user_data[:ip_addr]}', 'user_agent': '#{@user_data[:user_agent]}' }, [#{@tags.map { |s| @tags.last == s ? "'#{s}'" : "'#{s}', " }.join }]," +
+      "[#{@self_tags.map { |s| @self_tags.last == s ? "'#{s}'" : "'#{s}', " }.join }], [#{@play_time.map { |s| @play_time.last == s ? "'#{s}'" : "'#{s}', " }.join }], '#{@delete_key}'"
   end
 
   class << self
@@ -64,7 +67,25 @@ class PostData
          'PLAY_EASY', 'PLAY_VETERAN', 'PLAY_HERO'].sample
       end
       tags = tmpTags.uniq
-      PostData.new(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, 'delete')
+
+      tmpTags = (0..4).map do |i|
+        ['PS_EX', 'PS_JOY', 'PS_EASY',
+         'TIME_SOCIETY', 'TIME_STUDENT', 'TIME_SHIFT', 'TIME_NIGHTLY', 'TIME_RANDOM',
+         'YEARS_10', 'YEARS_20', 'YEARS_OV_30',
+         'PLAY_EASY', 'PLAY_VETERAN', 'PLAY_HERO'].sample
+      end
+      self_tags = tmpTags.uniq
+
+      tmpPlayTime = (0..4).map do |i|
+        [
+          "WEEKDAYS_M","WEEKDAYS_L","WEEKDAYS_N","WEEKDAYS_MN","WEEKDAYS_EM",
+          "HOLIDAYS_EM","HOLIDAYS_M","HOLIDAYS_L","HOLIDAYS_N","HOLIDAYS_MN",
+          "BEST_EFFORT","RANDOM","WEEKDAYS","HOLIDAYS"
+        ].sample
+      end
+      play_time = tmpPlayTime
+
+      PostData.new(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, 'delete')
     end
   end
 end
