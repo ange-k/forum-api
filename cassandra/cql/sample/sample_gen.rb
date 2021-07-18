@@ -62,7 +62,7 @@ class PostData
       }
       tmpTags = (0..4).map do |i|
         ['PS_EX', 'PS_JOY', 'PS_EASY',
-         'TIME_SOCIETY', 'TIME_STUDENT', 'TIME_SHIFT', 'TIME_NIGHTLY', 'TIME_RANDOM',
+         'TIME_SOCIETY', 'TIME_STUDENT',
          'YEARS_10', 'YEARS_20', 'YEARS_OV_30',
          'PLAY_EASY', 'PLAY_VETERAN', 'PLAY_HERO'].sample
       end
@@ -70,20 +70,19 @@ class PostData
 
       tmpTags = (0..4).map do |i|
         ['PS_EX', 'PS_JOY', 'PS_EASY',
-         'TIME_SOCIETY', 'TIME_STUDENT', 'TIME_SHIFT', 'TIME_NIGHTLY', 'TIME_RANDOM',
+         'TIME_SOCIETY', 'TIME_STUDENT',
          'YEARS_10', 'YEARS_20', 'YEARS_OV_30',
          'PLAY_EASY', 'PLAY_VETERAN', 'PLAY_HERO'].sample
       end
       self_tags = tmpTags.uniq
 
       tmpPlayTime = (0..4).map do |i|
-        [
-          "WEEKDAYS_M","WEEKDAYS_L","WEEKDAYS_N","WEEKDAYS_MN","WEEKDAYS_EM",
-          "HOLIDAYS_EM","HOLIDAYS_M","HOLIDAYS_L","HOLIDAYS_N","HOLIDAYS_MN",
-          "BEST_EFFORT","RANDOM","WEEKDAYS","HOLIDAYS"
+        ['WEEKDAYS_M','WEEKDAYS_L','WEEKDAYS_N','WEEKDAYS_MN','WEEKDAYS_EM',
+          'HOLIDAYS_EM','HOLIDAYS_M','HOLIDAYS_L','HOLIDAYS_N','HOLIDAYS_MN',
+          'BEST_EFFORT','RANDOM','WEEKDAYS','HOLIDAYS'
         ].sample
       end
-      play_time = tmpPlayTime
+      play_time = tmpPlayTime.uniq
 
       PostData.new(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, 'delete')
     end
