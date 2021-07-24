@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.Clock
+import java.time.LocalDate
 import java.util.*
 import java.util.stream.Collectors
 import java.util.stream.LongStream
@@ -30,6 +31,13 @@ class PostDatasource(
             .flatMap { request ->
                 repository.findByKeyGameIdAndKeyWriteDay(gameId, request.value())
             }.map(this::convertModel).asFlow()
+    }
+
+    fun findByGameIDAndWriteDay(gameId: String, writeDay: LocalDate) :Flux<PostTableModel> =
+        repository.findByKeyGameIdAndKeyWriteDay(gameId, writeDay)
+
+    fun delete(post: PostTableModel): Mono<Void> {
+        return repository.delete(post)
     }
 
     fun save(post: Post): Mono<Void> {
@@ -57,7 +65,7 @@ class PostDatasource(
 
     fun convertModel(model: PostTableModel): Post =
         Post(model.key.gameId, model.title, model.playerName, Post.Purpose.valueOf(model.purpose), Post.VcUse.valueOf(model.vcUse), model.device, model.comment,
-            model.key.uuid, model.key.writeDay, model.server, model.key.createdAt, UserDataDto.of(model.userData).convertModel(), model.deleteKey,
+            model.key.uuid.toString(), model.key.writeDay, model.server, model.key.createdAt, UserDataDto.of(model.userData).convertModel(), model.deleteKey,
             model.tags?.let { tags -> tags.map { s ->  Tags(Tags.Id.valueOf(s))}
             }?: run {
                 emptyList()

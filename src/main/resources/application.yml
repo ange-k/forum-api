@@ -16,5 +16,4 @@ logging:
         data:
           cassandra:
             core:
-              cql:
-                CqlTemplate: DEBUG
+              cql: DEBUG

@@ -2,8 +2,10 @@ package me.chalkboard.forum.presentation.controller
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.asFlow
+import me.chalkboard.forum.model.DeleteRequest
 import me.chalkboard.forum.model.Game
 import me.chalkboard.forum.model.Post
+import me.chalkboard.forum.usecase.exception.NotFoundException
 import me.chalkboard.forum.usecase.game.GameUsecase
 import me.chalkboard.forum.usecase.post.PostUsecase
 import org.slf4j.LoggerFactory
@@ -51,4 +53,19 @@ class ForumController(
     fun postGamesPost(
         @PathVariable("game") game: String,
         @Valid @RequestBody(required = true) post: Post): Mono<Void> = postUsecase.save(post).then()
+
+    /**
+     * 投稿の削除
+     */
+    @DeleteMapping(
+        value = ["/posts/{uuid}"]
+    )
+    fun deletePostsUuid(
+        @PathVariable("uuid") uuid: String,
+        @Valid @RequestBody(required = true) deleteRequest: DeleteRequest): Mono<Void>
+            = postUsecase.delete(uuid, deleteRequest).then()
+        .onErrorResume {
+            log.error("error", it)
+            return@onErrorResume Mono.error(NotFoundException(it.message?.ifEmpty { "削除処理に失敗" }))
+        }
 }

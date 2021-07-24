@@ -1,17 +1,19 @@
 package me.chalkboard.forum.usecase.post
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.reactive.asFlow
 import me.chalkboard.forum.infra.game.GameDatasource
 import me.chalkboard.forum.infra.post.PostDatasource
+import me.chalkboard.forum.infra.post.PostTableModel
+import me.chalkboard.forum.model.DeleteRequest
 import me.chalkboard.forum.model.Post
 import me.chalkboard.forum.usecase.exception.NotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.lang.Exception
+import java.time.LocalDate
 
 @Service
 class PostUsecase(
@@ -41,4 +43,17 @@ class PostUsecase(
                 log.error("想定外の例外:" + ex.message)
                 Mono.error(ex)
             }
+
+    fun delete(uuid: String, deleteRequest: DeleteRequest): Flux<Void> {
+        val result: Flux<PostTableModel> = postRepository.findByGameIDAndWriteDay(deleteRequest.gameId, LocalDate.parse(deleteRequest.writeDay))
+            .filter { post -> post.key.uuid.toString() == uuid }
+
+        return result.flatMap {
+            if(it.deleteKey == deleteRequest.deleteKey) {
+                return@flatMap postRepository.delete(it).then()
+            }
+            return@flatMap Mono.error(NotFoundException("削除キーが異なります"))
+        }
+            .switchIfEmpty(Mono.error(NotFoundException("削除対象が見つかりませんでした")))
+    }
 }

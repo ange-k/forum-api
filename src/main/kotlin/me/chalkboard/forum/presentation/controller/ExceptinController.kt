@@ -1,6 +1,7 @@
 package me.chalkboard.forum.presentation.controller
 
 import me.chalkboard.forum.model.Error
+import me.chalkboard.forum.usecase.exception.NotFoundException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -13,6 +14,14 @@ import java.lang.Exception
 class ExceptinController{
     companion object {
         private val log = LoggerFactory.getLogger(ExceptinController::class.java)
+    }
+
+    @ExceptionHandler(Exception::class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    suspend fun handleNotFoundError(exception: NotFoundException): ResponseEntity<Error> {
+        log.info("想定エラー:" + exception.message)
+        log.info(exception.stackTraceToString())
+        return ResponseEntity.internalServerError().body(Error(Error.Code.INTERNAL, exception.message.orEmpty()))
     }
 
     @ExceptionHandler(Exception::class)

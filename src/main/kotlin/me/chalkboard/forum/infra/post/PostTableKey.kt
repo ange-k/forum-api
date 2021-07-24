@@ -6,6 +6,7 @@ import org.springframework.data.cassandra.core.mapping.PrimaryKeyClass
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.*
 
 @PrimaryKeyClass
 data class PostTableKey(
@@ -16,5 +17,5 @@ data class PostTableKey(
     @PrimaryKeyColumn(name="created_at", ordinal = 2, type = PrimaryKeyType.CLUSTERED, ordering = Ordering.ASCENDING)
     val createdAt: LocalDateTime?,
     @PrimaryKeyColumn(name="uuid", ordinal = 3, type = PrimaryKeyType.CLUSTERED)
-    val uuid: String?,
+    val uuid: UUID?,
 )

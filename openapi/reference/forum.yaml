@@ -52,17 +52,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Post'
-              examples:
-                example:
-                  value:
-                    - id: 1
-                      gameId: pso2ngs
-                      playerName: ブロントさん
-                      purpose: PLAY
-                      vcUse: true
-                      device: PC or PS5
-                      comment: あれこれそれ
-                      createdAt: '2021-06-24T14:15:22Z'
         '500':
           $ref: '#/components/responses/SystemError'
     post:
@@ -83,16 +72,26 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Post'
-            examples:
-              example:
-                value:
-                  gameId: pso2ngs
-                  playerName: ブロントさん
-                  purpose: PLAY
-                  vcUse: true
-                  device: PC or PS5
-                  comment: あれこれそれ
         description: 掲示板書き込みデータ
+  '/posts/{uuid}':
+    parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-posts-uuid
+      responses:
+        '200':
+          description: OK
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteRequest'
 components:
   schemas:
     Game:
@@ -271,6 +270,20 @@ components:
             - JOB_HEAL
       required:
         - id
+    DeleteRequest:
+      title: DeleteRequest
+      type: object
+      properties:
+        deleteKey:
+          type: string
+        gameId:
+          type: string
+        writeDay:
+          type: string
+      required:
+        - deleteKey
+        - gameId
+        - writeDay
   responses:
     SystemError:
       description: エラーレスポンス
