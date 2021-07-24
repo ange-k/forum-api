@@ -16,7 +16,7 @@ class ExceptinController{
         private val log = LoggerFactory.getLogger(ExceptinController::class.java)
     }
 
-    @ExceptionHandler(Exception::class)
+    @ExceptionHandler(NotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     suspend fun handleNotFoundError(exception: NotFoundException): ResponseEntity<Error> {
         log.info("想定エラー:" + exception.message)

@@ -65,7 +65,6 @@ class ForumController(
         @Valid @RequestBody(required = true) deleteRequest: DeleteRequest): Mono<Void>
             = postUsecase.delete(uuid, deleteRequest).then()
         .onErrorResume {
-            log.error("error", it)
             return@onErrorResume Mono.error(NotFoundException(it.message?.ifEmpty { "削除処理に失敗" }))
         }
 }
