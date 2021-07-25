@@ -4,13 +4,16 @@ plugins {
 	id("org.springframework.boot") version "2.5.1"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("org.openapi.generator") version "5.1.1"
+	id("com.github.johnrengelman.shadow") version "6.1.0"
 	kotlin("jvm") version "1.5.10"
 	kotlin("plugin.spring") version "1.5.10"
 	kotlin("kapt") version "1.3.61"
+
+	application
 }
 
 group = "me.chalkboard"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -95,4 +98,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+application {
+	mainClassName="me.chalkboard.forum.GameForumApplicationKt" //Gradle Shadow PluginがNameを参照する
 }
