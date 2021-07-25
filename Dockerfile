@@ -21,5 +21,6 @@ RUN ./gradlew openApiGenerate && ./gradlew build -x test
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 
-COPY build/libs/gameforum-0.0.1.jar app.jar
+ARG JAR=build/libs/gameforum-0.0.1.jar
+COPY ${JAR} app.jar
 ENTRYPOINT ["java","-jar","/app.jar","-Djavax.net.ssl.trustStore=src/main/resources/cassandra_truststore.jks", "-Djavax.net.ssl.trustStorePassword=${STORE_PASS}"]
