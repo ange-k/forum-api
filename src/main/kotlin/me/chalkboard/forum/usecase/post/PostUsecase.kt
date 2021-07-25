@@ -47,6 +47,7 @@ class PostUsecase(
     fun delete(uuid: String, deleteRequest: DeleteRequest): Flux<Void> {
         val result: Flux<PostTableModel> = postRepository.findByGameIDAndWriteDay(deleteRequest.gameId, LocalDate.parse(deleteRequest.writeDay))
             .filter { post -> post.key.uuid.toString() == uuid }
+            .switchIfEmpty(Mono.error(NotFoundException("削除対象が見つかりませんでした")))
 
         return result.flatMap {
             if(it.deleteKey == deleteRequest.deleteKey) {
@@ -54,6 +55,5 @@ class PostUsecase(
             }
             return@flatMap Mono.error(NotFoundException("削除キーが異なります"))
         }
-            .switchIfEmpty(Mono.error(NotFoundException("削除対象が見つかりませんでした")))
     }
 }

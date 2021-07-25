@@ -25,3 +25,5 @@ CREATE TABLE posts (
     delete_key varchar,
     PRIMARY KEY ((game_id, write_day), created_at, uuid)
 );
+
+-- AWS: CREATE TABLE IF NOT EXISTS "forum".{table}

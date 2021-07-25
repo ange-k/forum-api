@@ -8,3 +8,7 @@ https://davidecerbo.medium.com/playing-with-kotlin-flows-72370fc00e51
 val reactorFlux: Flux<String> = flow { ... }.asFlux()
 val fluxToFlow: Flow<String> = reactorFlux.asFlow()
 ```
+
+## AWS 
+### スポットフリート
+https://pages.awscloud.com/rs/112-TZM-766/images/B1-01.pdf
