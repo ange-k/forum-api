@@ -9,7 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --no-cache -t $IMAGE_REPO_NAME:$IMAGE_TAG . --build-arg AKS_USERNAME=$AKS_USERNAME AKS_PASSWORD=$AKS_PASSWORD STORE_PASS=$STORE_PASS
+      - docker build --no-cache -t $IMAGE_REPO_NAME:$IMAGE_TAG . --build-arg AKS_USERNAME=$AKS_USERNAME --build-arg AKS_PASSWORD=$AKS_PASSWORD --build-arg STORE_PASS=$STORE_PASS
       - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
   post_build:
     commands:
