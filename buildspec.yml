@@ -1,10 +1,16 @@
 version: 0.2
-
+env:
+  secrets-manager:
+    DOCKERHUB_USER: arn:aws:secretsmanager:ap-northeast-1:991180925719:secret:docker-account-Ti1BlR:dockerhub-user
+    DOCKERHUB_PASS: arn:aws:secretsmanager:ap-northeast-1:991180925719:secret:docker-account-Ti1BlR:dockerhub-pass
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+      # Docker Hub へのログイン
+      - echo Logging in to Docker Hub...
+      - echo $DOCKERHUB_PASS | docker login -u $DOCKERHUB_USER --password-stdin
   build:
     commands:
       - echo Build started on `date`
