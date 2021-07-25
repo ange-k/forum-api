@@ -2,8 +2,14 @@ FROM openjdk:15-jdk-alpine
 RUN apk update && apk add curl openssl
 COPY . .
 
-RUN export $(cat .env | grep -v ^# | xargs);
-RUN export SPRING_PROFILES_ACTIVE=prod
+ARG AKS_USERNAME
+ARG AKS_PASSWORD
+ARG STORE_PASS
+
+ENV AKS_USERNAME ${AKS_USERNAME}
+ENV AKS_PASSWORD ${AKS_PASSWORD}
+ENV STORE_PASS ${STORE_PASS}
+ENV SPRING_PROFILES_ACTIVE prod
 
 RUN curl https://certs.secureserver.net/repository/sf-class2-root.crt -O && \
 openssl x509 -outform der -in sf-class2-root.crt -out temp_file.der && \
