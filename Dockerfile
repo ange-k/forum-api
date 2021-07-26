@@ -18,4 +18,5 @@ keytool -import -alias cassandra -keystore cassandra_truststore.jks -file temp_f
 RUN mv ./cassandra_truststore.jks ./src/main/resources
 RUN ./gradlew openApiGenerate && ./gradlew build -x test
 
-ENTRYPOINT ["java","-jar","build/libs/gameforum-0.0.1.jar","-Djavax.net.ssl.trustStore=src/main/resources/cassandra_truststore.jks", "-Djavax.net.ssl.trustStorePassword=${STORE_PASS}"]
+# entrypointでは変数展開されない
+ENTRYPOINT ["/bin/sh", "-c", "java","-jar","build/libs/gameforum-0.0.1.jar","-Djavax.net.ssl.trustStore=src/main/resources/cassandra_truststore.jks", "-Djavax.net.ssl.trustStorePassword=${STORE_PASS}"]
