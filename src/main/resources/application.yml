@@ -16,3 +16,9 @@ logging:
           cassandra:
             core:
               cql: DEBUG
+# api-gatewayで公開エンドポイントを絞るため、ここでは全てを許可している
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -42,6 +42,8 @@ dependencies {
 	implementation("io.swagger:swagger-annotations:1.6.2")
 	implementation("javax.validation:validation-api:2.0.1.Final")
 
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 }
