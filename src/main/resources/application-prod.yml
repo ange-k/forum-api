@@ -7,3 +7,5 @@ spring:
       password: ${AKS_PASSWORD}
       localDatacenter: ap-northeast-1
       schema-action: NONE
+server:
+  port: 80
