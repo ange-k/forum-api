@@ -1,3 +1,5 @@
+api:
+  base-path: /forum-api
 spring:
   data:
     cassandra: # https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/cassandra/CassandraProperties.java
@@ -19,3 +21,4 @@ management:
     web:
       exposure:
         include: "*"
+      base-path: /forum-api/actuator
