@@ -28,4 +28,4 @@ phases:
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODE_VERSION
 cache:
   paths:
-    - 'root/.gradle/**/*'
+    - '/root/.gradle/**/*'
