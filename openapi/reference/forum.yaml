@@ -6,7 +6,7 @@ info:
 servers:
   - url: 'http://localhost:3000'
 paths:
-  /games:
+  /forum-api/games:
     parameters: []
     get:
       summary: Get User Info by User ID
@@ -30,7 +30,7 @@ paths:
           $ref: '#/components/responses/SystemError'
       operationId: get-games
       description: 全てのゲームのIDとなまえを返す
-  '/games/{game}/posts':
+  '/forum-api/games/{game}/posts':
     parameters:
       - schema:
           type: string
@@ -73,7 +73,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Post'
         description: 掲示板書き込みデータ
-  '/posts/{uuid}':
+  '/forum-api/posts/{uuid}':
     parameters:
       - schema:
           type: string
