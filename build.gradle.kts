@@ -42,6 +42,9 @@ dependencies {
 	implementation("io.swagger:swagger-annotations:1.6.2")
 	implementation("javax.validation:validation-api:2.0.1.Final")
 
+	// https://mvnrepository.com/artifact/software.aws.mcs/aws-sigv4-auth-cassandra-java-driver-plugin
+	// implementation("software.aws.mcs:aws-sigv4-auth-cassandra-java-driver-plugin:4.0.4")
+
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

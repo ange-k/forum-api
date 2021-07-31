@@ -2,10 +2,14 @@ spring:
   data:
     cassandra: # https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/cassandra/CassandraProperties.java
       keyspaceName: forum
+      contact-points:
+        - "cassandra.ap-northeast-1.amazonaws.com"
       port: 9142
+      ssl: true
       username: ${AKS_USERNAME}
       password: ${AKS_PASSWORD}
-      localDatacenter: ap-northeast-1
-      schema-action: NONE
+      request:
+        consistency: local_quorum
+      local-datacenter: ap-northeast-1
 server:
   port: 80
