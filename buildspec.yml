@@ -26,7 +26,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODE_VERSION
-      - printf '{"Version":"1.0","ImageURI":"%s"}' $IMAGE_REPOSITORY_NAME:$IMAGE_TAG > imageDetail.json
+      - printf '{"Version":"1.0","ImageURI":"%s"}' $IMAGE_REPO_NAME:$IMAGE_TAG > imageDetail.json
 cache:
   paths:
     - '/root/.gradle/**/*'
