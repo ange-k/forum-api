@@ -19,4 +19,4 @@ RUN mv ./cassandra_truststore.jks ./src/main/resources
 RUN ./gradlew openApiGenerate && ./gradlew build -x test
 
 # entrypointでは変数展開されない
-ENTRYPOINT ["/bin/sh", "-c", "java -jar build/libs/gameforum-0.0.1.jar -Djavax.net.ssl.trustStore=src/main/resources/cassandra_truststore.jks -Djavax.net.ssl.trustStorePassword=${STORE_PASS}"]
+ENTRYPOINT ["/bin/sh", "-c", "java -jar build/libs/gameforum-0.0.1.jar -Djavax.net.ssl.trustStoreType=jks -Djavax.net.ssl.trustStore=src/main/resources/cassandra_truststore.jks -Djavax.net.ssl.trustStorePassword=${STORE_PASS}"]
