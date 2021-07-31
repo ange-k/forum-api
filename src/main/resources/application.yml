@@ -11,6 +11,8 @@ spring:
       password: pass
       schema-action: none # https://docs.spring.io/spring-data/cassandra/docs/current/api/org/springframework/data/cassandra/config/SchemaAction.html
       local-datacenter: datacenter1
+      request:
+        consistency: local_one
   profiles:
     active: dev
 
