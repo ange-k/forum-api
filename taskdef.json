@@ -1,0 +1,41 @@
+{
+  "executionRoleArn": "arn:aws:iam::991180925719:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "java-api",
+      "image": "<IMAGE1_NAME>",
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/forum-api",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        }
+      ],
+      "cpu": 0,
+      "essential": true,
+      "healthCheck": {
+        "retries": 2,
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost/forum-api/actuator/health || exit 1"
+        ],
+        "timeout": 10,
+        "interval": 30,
+        "startPeriod": 60
+      },
+      "readonlyRootFilesystem": false
+    }
+  ],
+  "taskRoleArn": "arn:aws:iam::991180925719:role/ecsTaskExecutionRole",
+  "requiresCompatibilities": ["EC2"],
+  "memory": "800",
+  "family": "forum-api"
+}
