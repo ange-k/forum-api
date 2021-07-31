@@ -1,6 +1,7 @@
 package me.chalkboard.forum.infra.config
 
 import com.datastax.oss.driver.api.core.CqlSessionBuilder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,7 +17,9 @@ import javax.net.ssl.SSLContext
 @EnableReactiveCassandraRepositories
 class CassandraConfig(
     val cassandraProperties: CassandraProperties,
+    @Value("\${spring.profiles.active}") val env:String
 ): AbstractReactiveCassandraConfiguration() {
+
     override fun getKeyspaceName(): String {
         return cassandraProperties.keyspaceName
     }
@@ -51,6 +54,9 @@ class CassandraConfig(
      * https://github.com/spring-projects/spring-boot/issues/25602
      */
     override fun getSessionBuilderConfigurer(): SessionBuilderConfigurer? {
+        if(env != "prod") {
+            return super.getSessionBuilderConfigurer()
+        }
         return SessionBuilderConfigurer { cqlSessionBuilder: CqlSessionBuilder ->
             val sslContext: SSLContext = SSLContext.getDefault()
             cqlSessionBuilder.withSslContext(sslContext)
