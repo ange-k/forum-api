@@ -5,13 +5,13 @@ COPY . .
 ARG AKS_USERNAME
 ARG AKS_PASSWORD
 ARG STORE_PASS
-ARG API_KEY
+ARG AUTH_APIKEY
 
 ENV AKS_USERNAME ${AKS_USERNAME}
 ENV AKS_PASSWORD ${AKS_PASSWORD}
 ENV STORE_PASS ${STORE_PASS}
 ENV SPRING_PROFILES_ACTIVE prod
-ENV API_KEY ${API_KEY}
+ENV AUTH_APIKEY ${AUTH_APIKEY}
 
 RUN curl https://certs.secureserver.net/repository/sf-class2-root.crt -O && \
 openssl x509 -outform der -in sf-class2-root.crt -out temp_file.der && \

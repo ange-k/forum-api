@@ -1,5 +1,6 @@
 package me.chalkboard.forum.presentation.filter
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.server.reactive.ServerHttpResponse
@@ -11,11 +12,15 @@ import reactor.core.publisher.Mono
 
 @Component
 class ApiKeyWebFilter(val config: ApiKeyConfig): WebFilter {
+    companion object {
+        private val log = LoggerFactory.getLogger(ApiKeyWebFilter::class.java)
+    }
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         if(exchange.request.path.toString().contains("actuator")) {
             return chain.filter(exchange)
         }
 
+        log.info("access:" + exchange.request.uri.toString())
         val uri = exchange.request.queryParams.getFirst("apikey")
         if(!uri.isNullOrBlank() && uri == config.apikey) {
             return chain.filter(exchange)
