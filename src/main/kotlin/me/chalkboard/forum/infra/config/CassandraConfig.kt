@@ -1,6 +1,7 @@
 package me.chalkboard.forum.infra.config
 
 import com.datastax.oss.driver.api.core.CqlSessionBuilder
+import org.springframework.beans.factory.BeanFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties
 import org.springframework.context.annotation.Bean
@@ -8,6 +9,8 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.cassandra.config.AbstractReactiveCassandraConfiguration
 import org.springframework.data.cassandra.config.CqlSessionFactoryBean
 import org.springframework.data.cassandra.config.SessionBuilderConfigurer
+import org.springframework.data.cassandra.core.ReactiveCassandraTemplate
+import org.springframework.data.cassandra.core.cql.ReactiveCqlOperations
 import org.springframework.data.cassandra.core.cql.ReactiveCqlTemplate
 import org.springframework.data.cassandra.core.mapping.CassandraMappingContext
 import org.springframework.data.cassandra.core.mapping.NamingStrategy
@@ -64,9 +67,26 @@ class CassandraConfig(
         }
     }
 
-    override fun reactiveCqlTemplate(): ReactiveCqlTemplate {
+    /**
+     * reactiveCqlTemplateOption=reactiveCqlTemplateだが、
+     * Bean登録したところでこのCassandraTemplateの作成時に入れ込まないと意味がない模様
+     */
+    @Bean
+    override fun reactiveCassandraTemplate(): ReactiveCassandraTemplate {
+        val cassandraTemplate: ReactiveCassandraTemplate = super.reactiveCassandraTemplate()
+        val cqlTemplate:ReactiveCqlTemplate = super.reactiveCqlTemplate()
+
+        cqlTemplate.consistencyLevel = cassandraProperties.request.consistency
+
+        return ReactiveCassandraTemplate(
+            cqlTemplate, cassandraTemplate.converter
+        )
+    }
+
+    @Bean
+    fun reactiveCqlTemplateOption(): ReactiveCqlOperations {
         val template:ReactiveCqlTemplate = super.reactiveCqlTemplate()
         template.consistencyLevel = cassandraProperties.request.consistency
-        return super.reactiveCqlTemplate()
+        return template
     }
 }
