@@ -25,6 +25,7 @@ class ApiKeyWebFilter(val config: ApiKeyConfig): WebFilter {
         if(!uri.isNullOrBlank() && uri == config.apikey) {
             return chain.filter(exchange)
         }
+        log.warn("apikey:" + config.apikey)
         return writeUnauthorizedResponse(exchange)
     }
 
