@@ -13,3 +13,5 @@ spring:
       local-datacenter: ap-northeast-1
 server:
   port: 80
+auth:
+  apikey: ${API_KEY}

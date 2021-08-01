@@ -30,6 +30,13 @@ paths:
           $ref: '#/components/responses/SystemError'
       operationId: get-games
       description: 全てのゲームのIDとなまえを返す
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: apikey
+          required: true
+          description: APIを保護するための文字列
   '/forum-api/games/{game}/posts':
     parameters:
       - schema:
@@ -54,6 +61,12 @@ paths:
                   $ref: '#/components/schemas/Post'
         '500':
           $ref: '#/components/responses/SystemError'
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: apikey
+          description: APIを保護するための文字列
     post:
       summary: ''
       operationId: post-games-post
@@ -86,7 +99,12 @@ paths:
       responses:
         '200':
           description: OK
-      parameters: []
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: apikey
+          description: APIを保護するための文字列
       requestBody:
         content:
           application/json:
