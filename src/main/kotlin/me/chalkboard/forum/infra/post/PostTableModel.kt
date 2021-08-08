@@ -20,4 +20,5 @@ data class PostTableModel(
     val selfTags: List<String>?,
     val playTime: List<String>?,
     val deleteKey: String?,
+    val imagePath: String?
 )

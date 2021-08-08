@@ -23,6 +23,7 @@ CREATE TABLE posts (
     self_tags list<varchar>,
     play_time list<varchar>,
     delete_key varchar,
+    image_path varchar,
     PRIMARY KEY ((game_id, write_day), created_at, uuid)
 );
 

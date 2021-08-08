@@ -58,7 +58,8 @@ class PostDatasource(
             }?: run {
                 emptyList()
             },
-            post.deleteKey.orEmpty()
+            post.deleteKey.orEmpty(),
+            s3ObjectKey
         )
         return repository.save(model)
     }
@@ -77,6 +78,7 @@ class PostDatasource(
             model.playTime?.let { times -> times.map { time -> Post.PlayTime.valueOf(time)}
             }?: run {
                 emptyList()
-            }
+            },
+            model.imagePath
         )
 }

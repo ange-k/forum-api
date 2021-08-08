@@ -11,7 +11,7 @@ class InsertStatement
   end
 
   def gen()
-    keys = 'uuid, write_day, game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, delete_key'
+    keys = 'uuid, write_day, game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, delete_key, image_path'
     "INSERT INTO forum.posts(#{keys}) VALUES (uuid(), #{@post_data.to_text});\n"
   end
 end
@@ -19,7 +19,7 @@ end
 # Insert文の中身を作るためのクラス
 # key順が暗黙的に一致しないといけない
 class PostData
-  def initialize(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, delete_key)
+  def initialize(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, delete_key, image_path)
     @game_id = game_id
     @server = server
     @title = title
@@ -34,6 +34,7 @@ class PostData
     @self_tags = self_tags
     @play_time = play_time
     @delete_key = delete_key
+    @image_path = image_path
 
     @write_day = created_at.strftime('%Y-%m-%d')
   end
@@ -41,7 +42,8 @@ class PostData
   def to_text()
     "'#{@write_day}', '#{@game_id}', '#{@server}', '#{@title}','#{@player_name}', '#{@purpose}', '#{@vc_use}', '#{@device}', '#{@comment}', '#{@created_at}'," +
       "{ 'ip_addr': '#{@user_data[:ip_addr]}', 'user_agent': '#{@user_data[:user_agent]}' }, [#{@tags.map { |s| @tags.last == s ? "'#{s}'" : "'#{s}', " }.join }]," +
-      "[#{@self_tags.map { |s| @self_tags.last == s ? "'#{s}'" : "'#{s}', " }.join }], [#{@play_time.map { |s| @play_time.last == s ? "'#{s}'" : "'#{s}', " }.join }], '#{@delete_key}'"
+      "[#{@self_tags.map { |s| @self_tags.last == s ? "'#{s}'" : "'#{s}', " }.join }], [#{@play_time.map { |s| @play_time.last == s ? "'#{s}'" : "'#{s}', " }.join }], '#{@delete_key}'," +
+      "'#{@image_path}'"
   end
 
   class << self
@@ -84,7 +86,7 @@ class PostData
       end
       play_time = tmpPlayTime.uniq
 
-      PostData.new(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, 'delete')
+      PostData.new(game_id, server, title, player_name, purpose, vc_use, device, comment, created_at, user_data, tags, self_tags, play_time, 'delete', '')
     end
   end
 end
