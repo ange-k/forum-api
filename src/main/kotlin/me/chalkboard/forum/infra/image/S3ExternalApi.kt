@@ -22,14 +22,14 @@ class S3ExternalApi(
 
     override fun upload(data: Base64Image, objectPath: String) {
         val metaData = HashMap<String, String>()
-        metaData["Content-Length"] = data.byteLength.toString()
-        metaData["Content-Type"] = "image/png"
-        metaData["Cache-Control"] = "public, max-age=31536000"
 
         val request = PutObjectRequest.builder()
             .bucket(config.bucketName)
             .key(objectPath)
             .metadata(metaData)
+            .contentLength(data.byteLength.toLong())
+            .contentType("image/png")
+            .cacheControl("public, max-age=31536000")
             .build()
 
         try {
