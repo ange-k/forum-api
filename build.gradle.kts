@@ -47,6 +47,11 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 
+	implementation("commons-codec:commons-codec:1.15")
+
+	implementation(platform("software.amazon.awssdk:bom:2.17.14"))
+	implementation("software.amazon.awssdk:s3:2.17.14")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 }

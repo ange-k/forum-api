@@ -26,6 +26,10 @@ logging:
           cassandra:
             core:
               cql: DEBUG
+
+s3:
+  bucket-name: forum-front-images
+
 # api-gatewayで公開エンドポイントを絞るため、ここでは全てを許可している
 management:
   endpoints:

@@ -40,7 +40,7 @@ class PostDatasource(
         return repository.delete(post)
     }
 
-    fun save(post: Post): Mono<Void> {
+    fun save(post: Post, s3ObjectKey:String?): Mono<Void> {
         val userDataDto: UserDataDto = UserDataDto.of(post.userData)
         val model = PostTableModel(
             PostTableKey(post.gameId, Date.now(clock).value(), null, null),

@@ -230,6 +230,9 @@ components:
               - RANDOM
               - WEEKDAYS
               - HOLIDAYS
+        imageData:
+          type: string
+          description: base64/png/画像データ
       required:
         - gameId
         - title
