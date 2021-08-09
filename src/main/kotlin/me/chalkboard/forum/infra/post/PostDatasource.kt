@@ -23,7 +23,7 @@ class PostDatasource(
      * 1週間分のデータの取得を行う
      */
     suspend fun finds(gameId: String): Flow<Post> {
-        val requests:List<Date> = LongStream.range(0, 6).mapToObj { daysAgo ->
+        val requests:List<Date> = LongStream.range(0, 21).mapToObj { daysAgo ->
             Date.daysAgo(daysAgo, clock)
         }.collect(Collectors.toList())
 
